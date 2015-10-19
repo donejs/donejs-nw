@@ -1,11 +1,11 @@
 var nwOptions = {
   buildDir: "./build",
-  platforms: ["osx"],
+  version: "<%= version %>",
+  platforms: <%- JSON.stringify(platforms) %>,
   files: [
     "package.json",
     "production.html",
-    "node_modules/steal/steal.production.js",
-    "node_modules/place-my-order-assets/images/**/*"
+    "node_modules/steal/steal.production.js"
   ]
 };
 

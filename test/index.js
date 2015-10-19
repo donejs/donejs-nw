@@ -7,7 +7,11 @@ describe('donejs-nw', function() {
   describe('should create/update build.js', function() {
     describe('when no build.js exists', function() {
       before(function(done) {
-        helpers.run(path.join(__dirname, '../default'))
+        helpers.run(path.join(__dirname, '..', 'default'))
+          .withPrompts({
+            version: '0.0.0',
+            platforms: ['x']
+          })
           .on('end', done);
       });
 
@@ -15,12 +19,18 @@ describe('donejs-nw', function() {
         assert.file(['build.js']);
         assert.fileContent('build.js', /steal-tools/);
         assert.fileContent('build.js', /steal-nw/);
+        assert.fileContent('build.js', /version: "0.0.0"/);
+        assert.fileContent('build.js', /platforms: \["x"\]/);
       });
     });
 
     describe('when build.js was already created by generator-donejs', function() {
       before(function(done) {
-        helpers.run(path.join(__dirname, '../default'))
+        helpers.run(path.join(__dirname, '..', 'default'))
+        .withPrompts({
+          version: '0.0.0',
+          platforms: ['x']
+        })
         .inTmpDir(function(dir) {
           var done = this.async();
           fs.copy(path.join(__dirname, 'templates/generator-donejs'), dir, done);
@@ -33,17 +43,23 @@ describe('donejs-nw', function() {
         assert.fileContent('build.js', /generator-donejs build\.js/);
         assert.fileContent('build.js', /steal-tools/);
         assert.fileContent('build.js', /steal-nw/);
+        assert.fileContent('build.js', /version: "0.0.0"/);
+        assert.fileContent('build.js', /platforms: \["x"\]/);
       });
     });
 
     describe('when build.js was already created by generator-donejs and updated by donejs-cordvoa', function() {
       before(function(done) {
-        helpers.run(path.join(__dirname, '../default'))
-        .inTmpDir(function(dir) {
-          var done = this.async();
-          fs.copy(path.join(__dirname, 'templates/donejs-nw'), dir, done);
-        })
-        .on('end', done);
+        helpers.run(path.join(__dirname, '..', 'default'))
+          .withPrompts({
+            version: '0.0.0',
+            platforms: ['x']
+          })
+          .inTmpDir(function(dir) {
+            var done = this.async();
+            fs.copy(path.join(__dirname, 'templates/donejs-nw'), dir, done);
+          })
+          .on('end', done);
       });
 
       it('should not overwrite build.js', function() {
@@ -57,7 +73,7 @@ describe('donejs-nw', function() {
 
   describe('should update package.json', function() {
     before(function(done) {
-      helpers.run(path.join(__dirname, '../default'))
+      helpers.run(path.join(__dirname, '..', 'default'))
         .inTmpDir(function(dir) {
           var done = this.async();
           fs.copy(path.join(__dirname, 'templates/package-json'), dir, done);
@@ -65,7 +81,9 @@ describe('donejs-nw', function() {
         .withPrompts({
           main: 'app.html',
           width: '800',
-          height: '600'
+          height: '600',
+          version: '0.0.0',
+          platforms: ['x']
         })
         .on('end', done);
     });

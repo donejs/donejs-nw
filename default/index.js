@@ -1,8 +1,14 @@
+var os = require('os');
 var generator = require('yeoman-generator');
 var ejs = require('ejs');
 var fs = require('fs');
 var Q = require('q');
 var _ = require('lodash');
+var is = {
+  macos: os.platform() === 'darwin',
+  linux: os.platform() === 'linux',
+  windows: os.platform() === 'win32'
+};
 
 module.exports = generator.Base.extend({
   prompting: function () {
@@ -14,16 +20,48 @@ module.exports = generator.Base.extend({
       default : 'production.html'
     }, {
       type    : 'input',
+      name    : 'version',
+      message : 'The nw.js version you want to use (http://dl.nwjs.io/)',
+      default : 'latest'
+    }, {
+      type    : 'input',
       name    : 'width',
       message : 'Width of application window',
+      default: 1000
     }, {
       type    : 'input',
       name    : 'height',
       message : 'Height of application window',
+      default: 600
+    }, {
+      type: 'checkbox',
+      name: 'platforms',
+      message: 'What platforms would you like to support',
+      choices: [{
+        name: 'osx32',
+        checked: is.macos
+      }, {
+        name: 'osx64',
+        checked: is.macos
+      }, {
+        name: 'win32',
+        checked: is.windows
+      }, {
+        name: 'win64',
+        checked: is.windows
+      }, {
+        name: 'linux32',
+        checked: is.linux
+      }, {
+        name: 'linux64',
+        checked: is.linux
+      }]
     }], function (answers) {
       this.config.set('main', answers.main);
       this.config.set('width', answers.width);
       this.config.set('height', answers.height);
+      this.config.set('platforms', answers.platforms);
+      this.config.set('version', answers.version);
       done();
     }.bind(this));
   },
@@ -34,6 +72,10 @@ module.exports = generator.Base.extend({
     var done = this.async();
     var buildJsDeferred = Q.defer();
     var packageJsonDeferred = Q.defer();
+    var options = {
+      platforms: this.config.get('platforms'),
+      version: this.config.get('version')
+    };
 
     // update build.js
     var buildJs = this.destinationPath('build.js');
@@ -41,14 +83,14 @@ module.exports = generator.Base.extend({
       this.fs.copyTpl(
         this.templatePath('build.ejs'),
         buildJs,
-        {}
+        options
       );
       buildJsDeferred.resolve();
     } else {
       fs.readFile(buildJs, 'utf8', function(err, data) {
         if (data.indexOf('nwOptions') < 0) {
             var nwOptionsText = this.fs.read(this.templatePath('nwOptions.ejs'), 'utf8');
-            var newContent = data + ejs.render(nwOptionsText, {});
+            var newContent = data + ejs.render(nwOptionsText, options);
             fs.writeFile(buildJs, newContent, function() {
               buildJsDeferred.resolve();
             });
