@@ -73,7 +73,7 @@ describe('donejs-nw', function() {
     it('with correct nw.js configuration', function() {
       assert.file(['package.json']);
       assert.JSONFileContent('package.json', { main: 'app.html' });
-      assert.JSONFileContent('package.json', { window: { width: 800, height: 600 } });
+      assert.JSONFileContent('package.json', { window: { width: 800, height: 600, toolbar: false } });
     });
   });
 });

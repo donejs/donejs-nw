@@ -65,7 +65,8 @@ module.exports = generator.Base.extend({
       json.main = this.config.get('main');
       json.window = _.extend({}, json.window, {
         width: this.config.get('width'),
-        height: this.config.get('height')
+        height: this.config.get('height'),
+        toolbar: false
       });
       fs.writeFile(packageJson, JSON.stringify(json), function() {
         packageJsonDeferred.resolve();
