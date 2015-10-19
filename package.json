@@ -29,6 +29,8 @@
   ],
   "dependencies": {
     "ejs": "^2.3.4",
+    "lodash": "^3.10.1",
+    "q": "^1.4.1",
     "yeoman-generator": "^0.20.3"
   },
   "devDependencies": {

@@ -1,0 +1,57 @@
+{
+  "name": "DoneJS Project",
+  "version": "0.0.0",
+  "description": "",
+  "homepage": "",
+  "author": {
+    "name": "",
+    "email": "",
+    "url": ""
+  },
+  "scripts": {
+    "test": "testee src/test.html --browsers firefox --reporter Spec",
+    "start": "can-serve --port 8080",
+    "develop": "can-serve --develop --port 8080",
+    "document": "documentjs",
+    "build": "node build"
+  },
+  "main": "donejs-project/index.stache!done-autorender",
+  "files": [
+    "src"
+  ],
+  "keywords": [],
+  "system": {
+    "main": "donejs-project/index.stache!done-autorender",
+    "directories": {
+      "lib": "src"
+    },
+    "configDependencies": [
+      "live-reload"
+    ],
+    "npmIgnore": [
+      "documentjs",
+      "testee",
+      "donejs-deploy",
+      "generator-donejs"
+    ]
+  },
+  "dependencies": {
+    "can": "^2.3.0-beta.6",
+    "can-connect": "^0.3.1",
+    "can-ssr": "^0.9.4",
+    "done-autorender": "^0.4.3",
+    "done-component": "^0.2.1",
+    "done-css": "^1.1.15",
+    "generator-donejs": "^0.3.2",
+    "jquery": "^2.1.4",
+    "steal": "^0.12.0-pre.10"
+  },
+  "devDependencies": {
+    "documentjs": "^0.3.3",
+    "donejs-deploy": "^0.2.1",
+    "funcunit": "^3.0.0",
+    "steal-qunit": "^0.1.1",
+    "steal-tools": "^0.12.0-pre.5",
+    "testee": "^0.2.1"
+  }
+}
