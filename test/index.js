@@ -60,7 +60,7 @@ describe('donejs-nw', function() {
       helpers.run(path.join(__dirname, '../default'))
         .inTmpDir(function(dir) {
           var done = this.async();
-          fs.copy(path.join(__dirname, 'templates/package.json'), dir, done);
+          fs.copy(path.join(__dirname, 'templates/package-json'), dir, done);
         })
         .withPrompts({
           main: 'app.html',
