@@ -7,6 +7,8 @@ var buildPromise = stealTools.build({
   bundleAssets: true
 });
 
+// options added by `donejs add nw` - START
+// previous nw options - START
 var nwOptions = {
   buildDir: "./build",
   platforms: ["osx"],
@@ -28,3 +30,5 @@ if(buildNW) {
     stealNw(nwOptions, buildResult);
   });
 }
+// previous nw options - END
+// options added by `donejs add nw` - END

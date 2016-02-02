@@ -88,15 +88,31 @@ module.exports = generator.Base.extend({
       buildJsDeferred.resolve();
     } else {
       fs.readFile(buildJs, 'utf8', function(err, data) {
-        if (data.indexOf('nwOptions') < 0) {
-            var nwOptionsText = this.fs.read(this.templatePath('nwOptions.ejs'), 'utf8');
-            var newContent = data + ejs.render(nwOptionsText, options);
-            fs.writeFile(buildJs, newContent, function() {
-              buildJsDeferred.resolve();
-            });
+        var commentStartText = this.fs.read(this.templatePath('commentStart.ejs'), 'utf8'),
+            commentEndText = this.fs.read(this.templatePath('commentEnd.ejs'), 'utf8'),
+            nwOptionsText = this.fs.read(this.templatePath('nwOptions.ejs'), 'utf8'),
+            commentStartIndex = data.indexOf(commentStartText),
+            commentEndIndex = data.indexOf(commentEndText),
+            newContent;
+
+        if (commentStartIndex < 0 && commentEndIndex < 0) {
+            // add nwOptions
+            newContent = data +
+                ejs.render(commentStartText, options) +
+                ejs.render(nwOptionsText, options) +
+                ejs.render(commentEndText, options);
         } else {
-          buildJsDeferred.resolve();
+            // replace existing nwOptions
+            newContent = data.substring(data, commentStartIndex) +
+                ejs.render(commentStartText, options) +
+                ejs.render(nwOptionsText, options) +
+                ejs.render(commentEndText, options) +
+                data.substring(commentEndIndex + commentEndText.length);
         }
+
+        fs.writeFile(buildJs, newContent, function() {
+          buildJsDeferred.resolve();
+        });
       }.bind(this));
     }
 

@@ -48,7 +48,7 @@ describe('donejs-nw', function() {
       });
     });
 
-    describe('when build.js was already created by generator-donejs and updated by donejs-cordvoa', function() {
+    describe('when build.js was already created by generator-donejs and updated by donejs-nw', function() {
       before(function(done) {
         helpers.run(path.join(__dirname, '..', 'default'))
           .withPrompts({
@@ -62,11 +62,12 @@ describe('donejs-nw', function() {
           .on('end', done);
       });
 
-      it('should not overwrite build.js', function() {
+      it('should replace existing donejs-nw options', function() {
         assert.file(['build.js']);
         assert.fileContent('build.js', /generator-donejs \+ donejs-nw build\.js/);
         assert.fileContent('build.js', /steal-tools/);
         assert.fileContent('build.js', /steal-nw/);
+        assert.noFileContent('build.js', /previous nw options/);
       });
     });
   });
