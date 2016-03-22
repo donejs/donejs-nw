@@ -2,7 +2,7 @@ var nwOptions = {
   buildDir: "./build",
   version: "<%= version %>",
   platforms: <%- JSON.stringify(platforms) %>,
-  files: [
+  glob: [
     "package.json",
     "production.html",
     "node_modules/steal/steal.production.js"
