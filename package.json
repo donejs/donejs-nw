@@ -1,6 +1,6 @@
 {
   "name": "donejs-nw",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A plugin to add support for nw.js to your DoneJS application",
   "homepage": "http://donejs.com/",
   "license": "MIT",
