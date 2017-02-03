@@ -20,7 +20,7 @@
     "src"
   ],
   "keywords": [],
-  "system": {
+  "steal": {
     "main": "donejs-project/index.stache!done-autorender",
     "directories": {
       "lib": "src"
