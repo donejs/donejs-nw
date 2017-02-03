@@ -25,6 +25,11 @@ module.exports = generator.Base.extend({
       default : 'latest'
     }, {
       type    : 'input',
+      name    : 'baseURL',
+      message : 'The URL of the service layer',
+      default : undefined
+    }, {
+      type    : 'input',
       name    : 'width',
       message : 'Width of application window',
       default: 1000
@@ -38,9 +43,6 @@ module.exports = generator.Base.extend({
       name: 'platforms',
       message: 'What platforms would you like to support',
       choices: [{
-        name: 'osx32',
-        checked: is.macos
-      }, {
         name: 'osx64',
         checked: is.macos
       }, {
@@ -62,6 +64,7 @@ module.exports = generator.Base.extend({
       this.config.set('height', answers.height);
       this.config.set('platforms', answers.platforms);
       this.config.set('version', answers.version);
+      this.config.set('baseURL', answers.baseURL);
       done();
     }.bind(this));
   },
@@ -126,6 +129,15 @@ module.exports = generator.Base.extend({
         height: this.config.get('height'),
         toolbar: false
       });
+
+      if(this.config.get('baseURL') && json.steal) {
+        json.steal.envs = json.steal.envs || {};
+        var nwEnv = json.steal.envs['nw-production'];
+        if(!nwEnv) {
+          nwEnv = json.steal.envs['nw-production'] = {};
+        }
+        nwEnv.serviceBaseURL = this.config.get('baseURL');
+      }
       fs.writeFile(packageJson, JSON.stringify(json), function() {
         packageJsonDeferred.resolve();
       });

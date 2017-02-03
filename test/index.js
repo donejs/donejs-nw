@@ -84,6 +84,7 @@ describe('donejs-nw', function() {
           width: '800',
           height: '600',
           version: '0.0.0',
+          baseURL: 'https://foo.com',
           platforms: ['x']
         })
         .on('end', done);
@@ -93,6 +94,7 @@ describe('donejs-nw', function() {
       assert.file(['package.json']);
       assert.JSONFileContent('package.json', { main: 'app.html' });
       assert.JSONFileContent('package.json', { window: { width: 800, height: 600, toolbar: false } });
+      assert.JSONFileContent('package.json', { steal: { envs: { 'nw-production': {'serviceBaseURL': 'https://foo.com'}}}});
     });
   });
 });
