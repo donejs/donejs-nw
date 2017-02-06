@@ -1,6 +1,6 @@
 var path = require('path');
-var helpers = require('yeoman-generator').test;
-var assert = require('yeoman-generator').assert;
+var helpers = require('yeoman-test');
+var assert = require('assert');
 var fs = require('fs-extra');
 
 describe('donejs-nw', function() {
