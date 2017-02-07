@@ -1,5 +1,5 @@
 var os = require('os');
-var generator = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var ejs = require('ejs');
 var fs = require('fs');
 var Q = require('q');
@@ -10,7 +10,7 @@ var is = {
   windows: os.platform() === 'win32'
 };
 
-module.exports = generator.Base.extend({
+module.exports = Generator.extend({
   prompting: function () {
     var done = this.async();
     this.prompt([{
@@ -58,7 +58,7 @@ module.exports = generator.Base.extend({
         name: 'linux64',
         checked: is.linux
       }]
-    }], function (answers) {
+    }]).then(function (answers) {
       this.config.set('main', answers.main);
       this.config.set('width', answers.width);
       this.config.set('height', answers.height);
