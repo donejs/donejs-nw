@@ -28,7 +28,7 @@
     "DoneJS"
   ],
   "dependencies": {
-    "ejs": "^2.3.4",
+    "ejs": "^2.5.9",
     "lodash": "^4.17.4",
     "q": "^1.4.1",
     "yeoman-generator": "^1.1.0"
